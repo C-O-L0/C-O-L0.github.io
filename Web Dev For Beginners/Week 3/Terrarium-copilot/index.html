@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Terrarium</title>
+    <style>
+      /* Global Styles */
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #e0f7fa;
+        color: #023047;
+      }
+      header,
+      footer {
+        text-align: center;
+        padding: 1rem;
+        background: #8ecae6;
+        color: #023047;
+      }
+      header h1 {
+        font-size: 2.5rem;
+      }
+      header p,
+      footer p {
+        font-size: 1.2rem;
+        margin-top: 0.5rem;
+      }
+
+      /* Main Layout */
+      .main-content {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 1rem;
+        padding: 1rem;
+      }
+
+      /* Terrarium (Jar) Container */
+      .jar-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .terrarium-jar {
+        position: relative;
+        width: 100%;
+        max-width: 500px;
+        height: 500px;
+        border: 4px solid rgba(255, 255, 255, 0.6);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(8px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: transform 0.3s ease;
+        overflow: hidden;
+      }
+      .terrarium-jar p {
+        font-size: 1.2rem;
+        color: #023047;
+        text-align: center;
+        pointer-events: none;
+      }
+
+      /* Decoration Sidebar Panel */
+      .sidebar-container {
+        position: relative;
+      }
+      .decoration-panel {
+        padding: 1rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+      .category {
+        margin-bottom: 1rem;
+      }
+      .category h2 {
+        margin-bottom: 0.5rem;
+        font-size: 1.2rem;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 0.3rem;
+      }
+      .items {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+      .item {
+        width: 60px;
+        height: 60px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        overflow: hidden;
+        cursor: grab;
+        transition: transform 0.3s, box-shadow 0.3s, left 0.3s ease,
+          top 0.3s ease;
+        background: #fff;
+        position: relative;
+      }
+      .item:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+      .item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* Dropped item style: remove white background and border */
+      .dropped-item {
+        background: transparent !important;
+        border: none !important;
+      }
+
+      /* Mobile Responsive Behavior */
+      .panel-toggle {
+        display: none;
+        text-align: center;
+        background: #023047;
+        color: #fff;
+        padding: 0.5rem;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-bottom: 1rem;
+      }
+      @media (max-width: 768px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+        .panel-toggle {
+          display: block;
+        }
+        .decoration-panel {
+          display: none;
+        }
+        #togglePanel:checked + .decoration-panel {
+          display: block;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <h1>My Terrarium</h1>
+      <p>Decorate your world, one drop at a time!</p>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Terrarium Jar Section -->
+      <div class="jar-container">
+        <div class="terrarium-jar" id="jar">
+          <p>Drop decorations here!</p>
+        </div>
+      </div>
+
+      <!-- Decoration Sidebar -->
+      <div class="sidebar-container">
+        <!-- Checkbox for Mobile Toggle -->
+        <input type="checkbox" id="togglePanel" hidden />
+        <label for="togglePanel" class="panel-toggle">Show Decorations</label>
+
+        <div class="decoration-panel">
+          <!-- Greens Category -->
+          <section class="category">
+            <h2>Greens</h2>
+            <div class="items">
+              <div class="item draggable">
+                <img src="./assets/green1.png" alt="Green Plant 1" />
+              </div>
+              <div class="item draggable">
+                <img src="./assets/green2.png" alt="Green Plant 2" />
+              </div>
+            </div>
+          </section>
+          <!-- Flowers Category -->
+          <section class="category">
+            <h2>Flowers</h2>
+            <div class="items">
+              <div class="item draggable">
+                <img src="assets/flower1.png" alt="Flower Decoration 1" />
+              </div>
+              <div class="item draggable">
+                <img src="assets/flower2.png" alt="Flower Decoration 2" />
+              </div>
+            </div>
+          </section>
+          <!-- Rocks Category -->
+          <section class="category">
+            <h2>Rocks</h2>
+            <div class="items">
+              <div class="item draggable">
+                <img src="rocks1.png" alt="Rock Decoration 1" />
+              </div>
+              <div class="item draggable">
+                <img src="rocks2.png" alt="Rock Decoration 2" />
+              </div>
+            </div>
+          </section>
+          <!-- Cool Decorations Category -->
+          <section class="category">
+            <h2>Cool Decorations</h2>
+            <div class="items">
+              <div class="item draggable">
+                <img src="cool1.png" alt="Cool Decoration 1" />
+              </div>
+              <div class="item draggable">
+                <img src="cool2.png" alt="Cool Decoration 2" />
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <p>
+        Drag and drop your favorite decorations into the terrarium jar and watch
+        your personal garden come to life!
+      </p>
+    </footer>
+
+    <!-- JavaScript for Drag & Drop and Re-Dragging within the Jar -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Get the draggable items from the sidebar
+        const draggables = document.querySelectorAll(".draggable");
+        const jar = document.getElementById("jar");
+        let draggedItem = null;
+
+        // Set up sidebar draggables
+        draggables.forEach((item) => {
+          item.setAttribute("draggable", true);
+          item.addEventListener("dragstart", function (e) {
+            draggedItem = this;
+            e.dataTransfer.effectAllowed = "copy";
+            e.dataTransfer.setDragImage(
+              this,
+              this.offsetWidth / 2,
+              this.offsetHeight / 2
+            );
+          });
+        });
+
+        // Allow dropping on the terrarium jar
+        jar.addEventListener("dragover", function (e) {
+          e.preventDefault();
+          e.dataTransfer.dropEffect = "copy";
+        });
+
+        jar.addEventListener("dragenter", function (e) {
+          e.preventDefault();
+          jar.style.borderColor = "green";
+        });
+
+        jar.addEventListener("dragleave", function (e) {
+          jar.style.borderColor = "rgba(255,255,255,0.6)";
+        });
+
+        // Handle drop event: create a new container for the dropped image
+        jar.addEventListener("drop", function (e) {
+          e.preventDefault();
+          jar.style.borderColor = "rgba(255,255,255,0.6)";
+          if (draggedItem) {
+            // Create a new element to hold only the image (no white background)
+            const newItem = document.createElement("div");
+            newItem.classList.add("item", "dropped-item");
+            newItem.style.position = "absolute";
+
+            // Clone only the image element from the dragged item
+            const newImage = draggedItem.querySelector("img").cloneNode(true);
+            newItem.appendChild(newImage);
+
+            // Since the .item class sets width/height: 60px, we can use them directly.
+            // Position the new element at the drop location (centering it)
+            const jarRect = jar.getBoundingClientRect();
+            const leftPos = e.clientX - jarRect.left - 30; // 30 = 60px / 2
+            const topPos = e.clientY - jarRect.top - 30;
+            newItem.style.left = leftPos + "px";
+            newItem.style.top = topPos + "px";
+
+            jar.appendChild(newItem);
+
+            // Enable re-dragging of items within the jar
+            makeItemDraggable(newItem);
+          }
+        });
+
+        // Function to add mouse-based dragging (re-drag) for dropped items
+        function makeItemDraggable(item) {
+          let isDragging = false,
+            startX,
+            startY,
+            origX,
+            origY;
+
+          item.addEventListener("mousedown", function (e) {
+            e.preventDefault();
+            isDragging = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            const rect = item.getBoundingClientRect();
+            const jarRect = jar.getBoundingClientRect();
+            origX = rect.left - jarRect.left;
+            origY = rect.top - jarRect.top;
+            item.style.zIndex = 1000;
+          });
+
+          document.addEventListener("mousemove", function (e) {
+            if (!isDragging) return;
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+            item.style.left = origX + dx + "px";
+            item.style.top = origY + dy + "px";
+          });
+
+          document.addEventListener("mouseup", function (e) {
+            if (isDragging) {
+              isDragging = false;
+              item.style.zIndex = "";
+            }
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
