@@ -1,0 +1,65 @@
+.card {
+  padding: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.chartCard {
+  padding: 20px;
+  margin-top: 16px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.avatarPrimary {
+  background-color: var(--primary-light) !important;
+  color: white !important;
+  margin-right: 12px;
+}
+
+.avatarSecondary {
+  background-color: var(--secondary-light) !important;
+  color: white !important;
+  margin-right: 12px;
+}
+
+.amount {
+  font-weight: 700 !important;
+  margin-bottom: 8px !important;
+}
+
+.incomeAvatar {
+  background-color: #81c784 !important;
+}
+
+.expenseAvatar {
+  background-color: #e57373 !important;
+}
+
+.incomeIcon {
+  color: #2e7d32;
+}
+
+.expenseIcon {
+  color: #c62828;
+}
+
+.income {
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+.expense {
+  color: #c62828;
+  font-weight: 600;
+}

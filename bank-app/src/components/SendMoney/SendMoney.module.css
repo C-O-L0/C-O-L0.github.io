@@ -1,0 +1,13 @@
+.formPaper {
+  padding: 24px;
+}
+
+.contactsPaper {
+  padding: 24px;
+  height: 100%;
+}
+
+.submitBtn {
+  margin-top: 16px !important;
+  padding: 12px !important;
+}
