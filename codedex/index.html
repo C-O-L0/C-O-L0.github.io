@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Typescript.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat+Underline:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        height: 300vh; /* Extra space for scrolling */
+        overflow-x: hidden;
+        background-color: #ede7db;
+      }
+
+      .image-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: -1;
+        overflow: hidden;
+      }
+
+      .uncrop-image {
+        width: 100%; /* Image is always full width */
+        height: auto;
+        max-height: 100vh;
+        object-fit: cover;
+        clip-path: inset(
+          25% 25% 25% 25%
+        ); /* Start with image cropped from all sides */
+        transition: clip-path 0.3s ease-out;
+      }
+
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: black;
+        transform: translateY(
+          -100%
+        ); /* Navbar starts off-screen and slides in */
+        transition: transform 0.5s ease;
+        z-index: 10;
+      }
+
+      .navbar.visible {
+        transform: translateY(0); /* Move to visible position */
+      }
+
+      .logo {
+        font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+      }
+
+      .nav-links li {
+        margin-left: 2rem;
+      }
+
+      .nav-links a {
+        color: black;
+        font-family: "Montserrat", sans-serif;
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+
+      .nav-links a:hover {
+        color: #4f4f4f;
+      }
+
+      .scroll-space {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: transparent;
+      }
+
+      .main-content {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #ede7db;
+        padding: 0;
+        text-align: center;
+        margin-top: 100vh;
+      }
+
+      /* .main-content h2 {
+        padding: 2rem 0 2rem 0;
+        font-family: montserrat;
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .main-content p {
+        font-family: monospace, sans-serif;
+        font-size: 1rem;
+        line-height: 1.5;
+        margin: auto;
+        width: 75%;
+        text-align: center;
+      } */
+
+      .title-large {
+        font-family: "Montserrat", sans-serif;
+        font-size: 2.5rem;
+        font-weight: 200;
+        letter-spacing: 0.05em;
+        margin-bottom: 1rem;
+        line-height: 1.2;
+      }
+
+      .subtitle {
+        font-family: "Montserrat", sans-serif;
+        font-size: 1.5rem;
+        font-weight: 300;
+        font-style: italic;
+        color: #555;
+        margin-bottom: 3rem;
+      }
+
+      .body-text {
+        font-family: "Montserrat", sans-serif;
+        font-size: 1.1rem;
+        line-height: 1.8;
+        max-width: 800px;
+        margin: 1.5rem auto;
+        color: #333;
+      }
+
+      .highlight {
+        font-style: italic;
+        color: #555;
+        border-bottom: 1px dotted #888;
+      }
+
+      .quote {
+        font-family: "Georgia", serif;
+        font-size: 1.4rem;
+        font-style: italic;
+        line-height: 1.6;
+        max-width: 700px;
+        margin: 3rem auto 0.5rem;
+        color: #444;
+      }
+
+      .quote-attribution {
+        font-family: "Montserrat", sans-serif;
+        font-size: 0.9rem;
+        color: #666;
+        margin-top: 0;
+        text-align: right;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .section-1,
+      .section-2,
+      .section-3 {
+        width: 100%;
+        padding: 2rem 0;
+      }
+
+      .section-1 {
+        background-color: #ede7db;
+      }
+
+      .section-2 {
+        background-color: #e8e0d0;
+      }
+
+      .section-3 {
+        background-color: #e3dac6;
+      }
+
+      .fade-in-section {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 2s ease-out, transform 2s ease-out;
+        visibility: hidden;
+      }
+
+      .fade-in-section.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+        visibility: visible;
+      }
+
+      /* Interactive gallery styles */
+      .gallery-preview-section {
+        padding: 4rem 2rem;
+        text-align: center;
+        background-color: #f7f3eb;
+      }
+
+      .gallery-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 3rem auto;
+      }
+
+      .gallery-item {
+        width: 250px;
+        overflow: hidden;
+        position: relative;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+      }
+
+      .gallery-item:hover {
+        transform: translateY(-10px);
+      }
+
+      .thumbnail {
+        height: 300px;
+        background-size: cover;
+        background-position: center;
+        transition: transform 0.5s ease;
+      }
+
+      .gallery-item:hover .thumbnail {
+        transform: scale(1.05);
+      }
+
+      .caption {
+        padding: 1rem;
+        background-color: white;
+        font-family: "Montserrat", sans-serif;
+        font-size: 0.9rem;
+        transition: background-color 0.3s ease;
+      }
+
+      .gallery-item:hover .caption {
+        background-color: #e6e0d4;
+      }
+
+      /* Additional CSS for lightbox */
+      .lightbox {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+
+      .lightbox-content {
+        max-width: 80%;
+        max-height: 80%;
+        position: relative;
+      }
+
+      .lightbox-content img {
+        max-width: 100%;
+        max-height: 80vh;
+        display: block;
+        border: 3px solid white;
+      }
+
+      .lightbox-caption {
+        color: white;
+        padding: 1rem;
+        text-align: center;
+        font-family: "Montserrat", sans-serif;
+      }
+
+      .lightbox-close {
+        position: absolute;
+        top: -40px;
+        right: -40px;
+        width: 30px;
+        height: 30px;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 2rem;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar" id="navbar">
+      <div class="logo">Transcript.</div>
+      <ul class="nav-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Services</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="image-container">
+      <img
+        src="./assets/vintage.jpg"
+        alt="Uncrop Image"
+        class="uncrop-image"
+        id="uncropImage"
+      />
+    </div>
+
+    <div class="scroll-space">
+      <!-- Empty space for scrolling -->
+    </div>
+
+    <div class="main-content">
+      <div class="section-1 fade-in-section">
+        <h2 class="title-large">Stunning portraits & landscapes,</h2>
+        <h3 class="subtitle">
+          timeless black & white, street photography, architectural studies...
+        </h3>
+
+        <p class="body-text">
+          These carefully curated galleries with minimalist displays,
+          high-contrast imagery, and thoughtful composition showcase
+          <span class="highlight">classic photography styles</span> and
+          contemporary visual storytelling along with a unique perspective on
+          everyday moments.
+        </p>
+
+        <p class="quote">
+          "Photography is the story I fail to put into words."
+        </p>
+        <p class="quote-attribution">— Destin Sparks</p>
+      </div>
+
+      <div class="section-2 fade-in-section">
+        <h2 class="title-large">Capturing the essence of life,</h2>
+        <h3 class="subtitle">
+          candid moments, vibrant colors, dynamic compositions...
+        </h3>
+
+        <p class="body-text">
+          Our photographers excel in capturing the essence of life through
+          <span class="highlight">vivid imagery</span> that tells a story. Each
+          photograph is a testament to the beauty and complexity of the world
+          around us.
+        </p>
+
+        <p class="quote">
+          "A picture is a secret about a secret, the more it tells you the less
+          you know."
+        </p>
+        <p class="quote-attribution">— Diane Arbus</p>
+      </div>
+
+      <div class="section-3 fade-in-section">
+        <h2 class="title-large">Exploring new perspectives,</h2>
+        <h3 class="subtitle">
+          aerial views, macro shots, experimental techniques...
+        </h3>
+
+        <p class="body-text">
+          Pushing the boundaries of traditional photography, our artists explore
+          <span class="highlight">new perspectives</span> and innovative
+          techniques to create visually stunning and thought-provoking images.
+        </p>
+
+        <p class="quote">
+          "Photography is an austere and blazing poetry of the real."
+        </p>
+        <p class="quote-attribution">— Ansel Adams</p>
+      </div>
+
+      <div class="gallery-preview-section">
+        <h2>Featured Works</h2>
+
+        <div class="gallery-container">
+          <div class="gallery-item">
+            <div
+              class="thumbnail"
+              style="background-image: url('./assets/showcase-1.jpg')"
+            ></div>
+            <div class="caption">Iridescent</div>
+          </div>
+
+          <div class="gallery-item">
+            <div
+              class="thumbnail"
+              style="background-image: url('./assets/showcase-2.jpg')"
+            ></div>
+            <div class="caption">Life</div>
+          </div>
+
+          <div class="gallery-item">
+            <div
+              class="thumbnail"
+              style="background-image: url('./assets/showcase-3.jpg')"
+            ></div>
+            <div class="caption">Engross</div>
+          </div>
+
+          <div class="gallery-item">
+            <div
+              class="thumbnail"
+              style="background-image: url('./assets/showcase-4.jpg')"
+            ></div>
+            <div class="caption">Lines and Reds</div>
+          </div>
+
+          <div class="gallery-item">
+            <div
+              class="thumbnail"
+              style="background-image: url('./assets/showcase-5.jpg')"
+            ></div>
+            <div class="caption">Passage</div>
+          </div>
+
+          <div class="gallery-item">
+            <div
+              class="thumbnail"
+              style="background-image: url('./assets/showcase-6.jpg')"
+            ></div>
+            <div class="caption">Newyork</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Get the elements
+      const uncropImage = document.getElementById("uncropImage");
+      const navbar = document.getElementById("navbar");
+
+      if (!uncropImage || !navbar) {
+        console.error("Required elements not found!");
+      }
+
+      // Set initial and final crop percentages
+      const initialCropPercentage = 25; // 25% cropped from each side
+      const fullRevealedCropPercentage = 0; // 0% cropped (full image)
+
+      // Calculate how much scroll is needed to complete the uncrop
+      const scrollDistance = window.innerHeight; // Use viewport height as scroll distance
+
+      // Flag to track if navbar has been shown
+      let navbarShown = false;
+
+      // Add scroll event listener
+      window.addEventListener("scroll", () => {
+        // Get current scroll position
+        const scrollTop = window.scrollY;
+
+        // Calculate new crop percentage based on scroll position
+        let newCrop =
+          initialCropPercentage -
+          (scrollTop / scrollDistance) * initialCropPercentage;
+
+        // Ensure crop doesn't go below 0%
+        newCrop = Math.max(newCrop, fullRevealedCropPercentage);
+
+        // Update image clip-path
+        uncropImage.style.clipPath = `inset(${newCrop}% ${newCrop}% ${newCrop}% ${newCrop}%)`;
+
+        // Show navbar when image is fully uncropped (newCrop is 0)
+        if (newCrop === 0 && !navbarShown) {
+          navbar.classList.add("visible");
+          navbarShown = true;
+        }
+        // Hide navbar if image becomes cropped again and navbar was previously shown
+        else if (newCrop > 0 && navbarShown) {
+          navbar.classList.remove("visible");
+          navbarShown = false;
+        }
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const sections = document.querySelectorAll(".fade-in-section");
+
+        function checkIfInView() {
+          const windowHeight = window.innerHeight;
+          const windowTopPosition = window.scrollY;
+          const windowBottomPosition = windowTopPosition + windowHeight;
+
+          sections.forEach(function (section) {
+            const elementHeight = section.offsetHeight;
+            const elementTopPosition = section.offsetTop;
+            const elementBottomPosition = elementTopPosition + elementHeight;
+
+            // Check if element is in view
+            if (
+              elementBottomPosition >= windowTopPosition &&
+              elementTopPosition <= windowBottomPosition
+            ) {
+              section.classList.add("is-visible");
+            }
+          });
+        }
+
+        // Run check initially and on scroll
+        checkIfInView();
+        window.addEventListener("scroll", checkIfInView);
+      });
+
+      // Optional: Add lightbox functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        const galleryItems = document.querySelectorAll(".gallery-item");
+
+        galleryItems.forEach((item) => {
+          item.addEventListener("click", function () {
+            // Get the background image URL from the thumbnail
+            const thumbnailStyle =
+              this.querySelector(".thumbnail").style.backgroundImage;
+            const imageUrl = thumbnailStyle
+              .replace('url("', "")
+              .replace('")', "");
+            const caption = this.querySelector(".caption").textContent;
+
+            // Create and show lightbox (simplified - you might want to use a library)
+            const lightbox = document.createElement("div");
+            lightbox.classList.add("lightbox");
+            lightbox.innerHTML = `
+              <div class="lightbox-content">
+                <img src="${imageUrl}" alt="${caption}">
+                <div class="lightbox-caption">${caption}</div>
+                <button class="lightbox-close">×</button>
+              </div>
+            `;
+
+            document.body.appendChild(lightbox);
+
+            // Add close functionality
+            lightbox
+              .querySelector(".lightbox-close")
+              .addEventListener("click", function () {
+                document.body.removeChild(lightbox);
+              });
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
