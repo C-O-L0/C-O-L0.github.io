@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pomate</title>
+    <link rel="stylesheet" href="pomate.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400;1,700&family=League+Spartan:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <script src="pomate.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <div class="brand-name">
+        <p class="brand anonymous-pro-regular">
+          <span style="color: white" class="brand-white">POM</span
+          ><span style="color: #d0011b" class="brand-red">ATE</span>
+        </p>
+        <img class="Ready-Set-Go" src="./assets/Ready-Set-Go.svg" alt="logo" />
+      </div>
+    </header>
+    <div class="divider"></div>
+    <main>
+      <div class="App-desc">
+        <div class="revolution league-spartan-regular">
+          <p style="color: #d0011b">THIS IS</p>
+          <p style="color: #ede3c0">REVOLUTION</p>
+        </div>
+        <div class="description">
+          <p class="league-spartan-regular">
+            Meet Pomate, the revolutionary Pomodoro app designed to transform
+            your focus and productivity. More than just a timer, Pomate
+            intelligently adapts to your work habits, providing personalized
+            focus sessions and rejuvenating breaks, all while immersing you in a
+            world of calming soundscapes and subtle visual cues. Say goodbye to
+            distractions and hello to a new era of mindful productivity with
+            Pomate.
+          </p>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="pomo-container league-spartan-regular">
+        <div class="tasks-container" id="tasks-container">
+          <!-- Tasks will be added here dynamically -->
+        </div>
+        <div class="input-container">
+          <input
+            type="text"
+            id="input-task-name"
+            placeholder="ACTIVITY"
+            required
+          />
+          <input
+            type="number"
+            id="input-task-duration"
+            placeholder="TIME (MIN)"
+            min="1"
+            required
+          />
+          <button id="add-task-btn">Add Task</button>
+        </div>
+      </div>
+      <div class="modal-overlay" id="break-modal">
+        <div class="modal-content league-spartan-regular">
+          <div class="modal-header">
+            <h2>Mindful Break Time</h2>
+            <p>
+              Great work on your focus session! Time to refresh your mind and
+              body.
+            </p>
+          </div>
+
+          <img
+            src="./assets/Ready-Set-Go.svg"
+            alt="Break exercise illustration"
+            class="break-image"
+            id="exercise-image"
+          />
+
+          <div class="exercise-container" id="exercise-content">
+            <!-- Exercise content will be added here dynamically -->
+          </div>
+
+          <div class="break-timer" id="break-timer">05:00</div>
+
+          <div class="button-container">
+            <button class="skip-button" id="skip-break-btn">Skip Break</button>
+            <button class="resume-button" id="complete-break-btn">
+              Complete & Resume
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer></footer>
+  </body>
+</html>
