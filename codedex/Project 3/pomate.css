@@ -54,7 +54,8 @@ body {
   margin: 3rem 0 2rem 0;
 }
 
-.Ready-Set-Go {
+.Ready-Set-Go,
+.credit {
   margin: 0;
   width: 65%;
   height: auto;
