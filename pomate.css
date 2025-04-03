@@ -54,10 +54,18 @@ body {
   margin: 3rem 0 2rem 0;
 }
 
-.Ready-Set-Go,
-.credit {
+.Ready-Set-Go {
   margin: 0;
   width: 65%;
+  height: auto;
+}
+
+.credit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  width: 30%;
   height: auto;
 }
 
